@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="jquery-1.10.2.js"></script>
+    <script src="index.js"></script>
+</head>
+
+<body>
+    <div class="row">
+
+        <div id="wrapper">
+            <button id="notify-button" class="btn btn-success">Notify Me!!</button>
+        </div>
+    </div>
+
+    <script>
+        var notifyButton = document.querySelector('#notify-button');
+
+        var swRegistration = null;
+
+        function notifyMe() {
+            if (!("Notification" in window)) {
+                alert("This browser does not support system notifications");
+            }
+            else if (Notification.permission === "granted") {
+                notify();
+            }
+            else if (Notification.permission !== 'denied') {
+                Notification.requestPermission(function (permission) {
+                    if (permission === "granted") {
+                        notify();
+                    }
+                });
+            }
+
+            function notify() {
+                const title = 'Anh Nhan Oiiiiiiiiii!';
+                const options = {
+                    body: 'Sao anh dep trai qua zzzzz.\nHay den voi em :)'
+                };
+                swRegistration.showNotification(title, options);
+            }
+        }
+
+        $("#notify-button").click(function () {
+            notifyMe();
+        });
+
+        $("#clear-button").click(function () {
+            Push.clear();
+        });
+
+        $("#check-button").click(function () {
+            console.log(Push.Permission.has());
+        });
+
+        ////Notification
+        if ('serviceWorker' in navigator && 'PushManager' in window) {
+            console.log('Service Worker and Push is supported');
+
+            navigator.serviceWorker.register('/sw.js').then(function (swReg) {
+
+                if (swReg.active) {
+                    //send_message_to_sw();
+                }
+
+                swRegistration = swReg;
+
+            })
+                .catch(function (error) {
+                    console.error('Service Worker Error', error);
+                });
+
+            function send_message_to_sw(msg) {
+                $.ajax({
+                    url: '/TEST/GetPushNotification',
+                    type: 'GET',
+                    success: function (res) {
+                        if (res.Success) {
+                            navigator.serviceWorker.controller.postMessage(res.Data);
+                        }
+                    },
+                    error: function () {
+                        ('Push data ERROR!');
+                    }
+                });
+
+            }
+
+        } else {
+            console.warn('Push messaging is not supported');
+            pushButton.textContent = 'Push Not Supported';
+        }
+
+    </script>
+</body>
+
+</html>
+
+<style>
+    #wrapper {
+        margin: 0 auto;
+        padding: 10px;
+        text-align: center;
+    }
+
+    #notify-button {
+        font-size: 55px;
+        width: 300px;
+        height: 300px;
+        background-color: darkgreen;
+        color: white;
+    }
+</style>
