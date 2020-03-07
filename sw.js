@@ -3,7 +3,9 @@ self.addEventListener('push', function (event) {
     console.log('Event', event)
 
     event.waitUntil(
-
+        self.registration.showNotification('Hey I just got a fetch from you!', {
+            body: 'Hey I just got a fetch from you!',
+        })
 
     );
 });
