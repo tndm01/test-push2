@@ -18,9 +18,9 @@ var notifyButton = document.querySelector('#notify-button');
         }
 
         function notify() {
-            const title = 'Simple Title';
+            const title = 'Anh Nhan Oiiiiiiii!';
             const options = {
-                body: 'Simple piece of body text.\nSecond line of body text :)'
+                body: 'Sao anh dep trai cute qua zzz.\nAhihi :)'
             };
             swRegistration.showNotification(title, options);
         }
@@ -28,7 +28,6 @@ var notifyButton = document.querySelector('#notify-button');
     }
 
     $("#notify-button").click(function () {
-        console.log('7777');
         //$.ajax({
         //    url: '/TEST/PushNotification',
         //    type: 'POST',

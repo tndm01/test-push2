@@ -36,11 +36,16 @@
             }
 
             function notify() {
-                const title = 'Anh Nhan Oiiiiiiiiii!';
-                const options = {
-                    body: 'Sao anh dep trai qua zzzzz.\nHay den voi em :)'
-                };
-                swRegistration.showNotification(title, options);
+                // const title = 'Anh Nhan Oiiiiiiiiii!';
+                // const options = {
+                //     body: 'Sao anh dep trai qua zzzzz.\nHay den voi em :)'
+                // };
+                // swRegistration.showNotification(title, options);
+                clients.matchAll().then(clients => {
+                    clients.forEach(client => {
+                        send_message_to_client(client, msg).then(m => console.log("SW Received Message: " + m));
+                    })
+                })
             }
         }
 

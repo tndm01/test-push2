@@ -4,17 +4,27 @@ self.addEventListener('push', function (event) {
 
     event.waitUntil(
 
-        self.registration.showNotification('ServiceWorker Cookbook', {
-            body: 'Alea iacta est',
-        })
+
     );
 });
 
 self.addEventListener('message', function handler(event) {
-    console.log('postMessage received', event);
+    self.clients.matchAll().then(function (clients){
+        clients.forEach(function(client) {
+            client.postMessage({
+                msg: "Hey I just got a fetch from you!",
+                url: event.request.url
+            });
+
+            self.registration.showNotification('Hey I just got a fetch from you!', {
+                body: 'Hey I just got a fetch from you!',
+            })
+        });
+    }); 
 });
 
 self.addEventListener('install', function (event) {
+    
     event.waitUntil(self.skipWaiting()); // Activate worker immediately
 });
 
