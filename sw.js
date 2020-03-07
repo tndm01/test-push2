@@ -8,6 +8,12 @@ self.addEventListener('push', function (event) {
     );
 });
 
+self.addEventListener('install', function (event) {
+    console.log('installed!');
+});
+self.addEventListener('activate', function (event) {
+    console.log('activated!');
+});
 self.addEventListener('message', function handler(event) {
     self.clients.matchAll().then(function (clients){
         clients.forEach(function(client) {
@@ -20,13 +26,4 @@ self.addEventListener('message', function handler(event) {
             })
         });
     }); 
-});
-
-self.addEventListener('install', function (event) {
-    
-    event.waitUntil(self.skipWaiting()); // Activate worker immediately
-});
-
-self.addEventListener('activate', function (event) {
-    event.waitUntil(self.clients.claim()); // Become available to all pages
 });
