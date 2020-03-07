@@ -13,7 +13,6 @@ self.addEventListener('message', function handler(event) {
         clients.forEach(function(client) {
             client.postMessage({
                 msg: "Hey I just got a fetch from you!",
-                url: event.request.url
             });
 
             self.registration.showNotification('Hey I just got a fetch from you!', {

@@ -36,16 +36,11 @@
             }
 
             function notify() {
-                // const title = 'Anh Nhan Oiiiiiiiiii!';
-                // const options = {
-                //     body: 'Sao anh dep trai qua zzzzz.\nHay den voi em :)'
-                // };
-                // swRegistration.showNotification(title, options);
-                clients.matchAll().then(clients => {
-                    clients.forEach(client => {
-                        send_message_to_client(client, msg).then(m => console.log("SW Received Message: " + m));
-                    })
-                })
+                const title = 'Simple Title';
+                const options = {
+                    body: 'Simple piece of body text.\nSecond line of body text :)'
+                };
+                swRegistration.showNotification(title, options);
             }
         }
 
@@ -68,7 +63,7 @@
             navigator.serviceWorker.register('/sw.js').then(function (swReg) {
 
                 if (swReg.active) {
-                    //send_message_to_sw();
+                    send_message_to_sw();
                 }
 
                 swRegistration = swReg;
@@ -79,19 +74,11 @@
                 });
 
             function send_message_to_sw(msg) {
-                $.ajax({
-                    url: '/TEST/GetPushNotification',
-                    type: 'GET',
-                    success: function (res) {
-                        if (res.Success) {
-                            navigator.serviceWorker.controller.postMessage(res.Data);
-                        }
-                    },
-                    error: function () {
-                        ('Push data ERROR!');
-                    }
-                });
-
+                var data = {
+                    title: "Ahihi",
+                    body: "Ahaha"
+                }
+                navigator.serviceWorker.controller.postMessage(data);
             }
 
         } else {
